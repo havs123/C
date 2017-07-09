@@ -1,0 +1,73 @@
+#include<stdio.h>
+#define COMPARE(x,y)((x<y)?-1:(x==y)?0:1)
+#define MAX 30
+int avail;
+typedef struct{
+float coef;
+int exp;}poly;
+poly terms[MAX];
+void attach(float c,float e){
+terms[avail].coef=c;
+terms[avail++].exp=e;}
+void polyadd(int sa,int fa,int sb,int fb,int *sd,int*fd)
+{
+float c;
+*sd=avail;
+while(sa<=fa && sb<=fb){
+    switch(COMPARE(terms[sa].exp,terms[sb].exp)){
+case -1:
+    attach(terms[sb].coef,terms[sb].exp);
+    sb++;
+    break;
+case 0:
+    c=terms[sa].coef+terms[sb].coef;
+    if(c!=0){attach(c,terms[sa].exp);}
+    sa++;sb++;break;
+case 1:attach(terms[sa].coef,terms[sb].coef);
+    sa++;break;
+}}
+for(;sa<=fa;sa++)
+    attach(terms[sa].coef,terms[sa].exp);
+for(;sb<=fb;sb++)
+    attach(terms[sb].coef,terms[sb].exp);
+*fd=avail-1;
+}
+int main()
+{
+    int sa,fa,sb,fb,m,n,i,sd,fd;
+    printf("enter th eno of terms in first poly ");
+    scanf("%d",&m);
+        sa=0;
+    fa=m-1;
+    printf("\nenter the coef and exp:\n");
+    for(i=0;i<m;i++)
+        scanf("%f%d",&terms[i].coef,&terms[i].exp);
+
+    printf("\nfirst poly..\n");
+    for(i=0;i<m;i++)
+    {
+        printf("%.2fx^%d",terms[i].coef,terms[i].exp);
+        if(i<m-1)printf("+");
+    }
+    printf("\nenter th eno of terms in 2nd poly ");
+    scanf("%d",&n);
+    printf("\nenter the coef and exp:\n");
+    sb=m;
+    fb=m+n-1;
+    for(i=sb;i<=fb;i++)
+        scanf("%f%d",&terms[i].coef,&terms[i].exp);
+    printf("\nsecond poly..\n");
+    for(i=sb;i<=fb;i++)
+    {
+        printf("%.2f^x%d",terms[i].coef,terms[i].exp);
+        if(i<fb)printf("+");
+    }
+    avail=m+n;
+    polyadd(sa,fa,sb,fb,&sd,&fd);
+    printf("\nthe resultant poly\n");
+    for(i=sd;i<=fd;i++)
+        {
+        printf("%.2f^x%d",terms[i].coef,terms[i].exp);
+        if(i<fd)printf("+");
+    }
+}
