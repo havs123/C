@@ -9,8 +9,7 @@ poly terms[MAX];
 void attach(float c,float e){
 terms[avail].coef=c;
 terms[avail++].exp=e;}
-void polyadd(int sa,int fa,int sb,int fb,int *sd,int*fd)
-{
+void polyadd(int sa,int fa,int sb,int fb,int *sd,int *fd){
 float c;
 *sd=avail;
 while(sa<=fa && sb<=fb){
@@ -23,7 +22,7 @@ case 0:
     c=terms[sa].coef+terms[sb].coef;
     if(c!=0){attach(c,terms[sa].exp);}
     sa++;sb++;break;
-case 1:attach(terms[sa].coef,terms[sb].coef);
+case 1:attach(terms[sa].coef,terms[sa].coef);
     sa++;break;
 }}
 for(;sa<=fa;sa++)
